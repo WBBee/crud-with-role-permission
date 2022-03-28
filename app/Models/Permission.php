@@ -32,4 +32,11 @@ class Permission extends \Spatie\Permission\Models\Permission
             : static::where('name', 'like', '%' . $query . '%')
             ;
     }
+
+    public static function getAvailablePermission($model)
+    {
+        $query = static::query();
+        $query->whereNotIn('name', $model);
+        return $query->get();
+    }
 }

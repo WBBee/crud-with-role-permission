@@ -9,10 +9,7 @@
 
         <!-- Fonts -->
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
-        <link rel="stylesheet" href="https://kit-free.fontawesome.com/releases/latest/css/free-v4-shims.min.css" media="all">
-        <link rel="stylesheet" href="https://kit-free.fontawesome.com/releases/latest/css/free-v4-font-face.min.css" media="all">
-        <link rel="stylesheet" href="https://kit-free.fontawesome.com/releases/latest/css/free.min.css" media="all">
-
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.1.1/css/all.css" >
 
         <!-- Styles -->
         {{-- <link rel="stylesheet" href="{{ asset('css/tailwind.css') }}"> --}}

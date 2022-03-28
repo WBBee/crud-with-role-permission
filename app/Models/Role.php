@@ -19,9 +19,9 @@ class Role extends \Spatie\Permission\Models\Role
 
     public static function isRoleExist(string $role_name)
     {
-        $query = static::query();
-        $query->where('name', '=', $role_name);
-        return $query->first();
+        return empty($role_name) ? static::query()
+            : static::where('name', '=', $role_name)
+            ->first();
     }
 
     public static function search($query)
@@ -29,5 +29,12 @@ class Role extends \Spatie\Permission\Models\Role
         return empty($query) ? static::query()
             : static::where('name', 'like', '%' . $query . '%')
             ;
+    }
+
+    public static function getAvailableRoles($model)
+    {
+        $query = static::query();
+        $query->whereNotIn('name', $model);
+        return $query->get();
     }
 }

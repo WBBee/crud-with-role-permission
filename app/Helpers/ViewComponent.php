@@ -23,7 +23,7 @@ if (!function_exists('ViewDisplay')) {
                         'is_multi_page' => false,
                         'page_name' => 'dashboard',
                         'page_route' => 'dashboard',
-                        'page_icon' => 'fab fa-readme',
+                        'page_icon' => 'fa-brands fa-readme',
                         'allow_role' => [
                             Role::ROLE_ADMIN
                         ],
@@ -40,8 +40,8 @@ if (!function_exists('ViewDisplay')) {
                     [
                         'is_multi_page' => false,
                         'page_name' => 'Role & Permission',
-                        'page_route' => 'dashboard',
-                        'page_icon' => 'fab fa-readme',
+                        'page_route' => 'role-permission',
+                        'page_icon' => 'fa-solid fa-user-shield',
                         'allow_role' => [
                             Role::ROLE_ADMIN
                         ],
@@ -49,7 +49,7 @@ if (!function_exists('ViewDisplay')) {
                     [
                         'is_multi_page' => true,
                         'title' => 'Account',
-                        'icon' => 'fas fa-fire',
+                        'icon' => 'fa-solid fa-users',
                         'allow_role' => [
                             Role::ROLE_ADMIN
                         ],
@@ -72,15 +72,6 @@ if (!function_exists('ViewDisplay')) {
                         ],
                     ],
 
-                    [
-                        'is_multi_page' => false,
-                        'page_name' => 'Role & Permission',
-                        'page_route' => 'dashboard',
-                        'page_icon' => 'fab fa-readme',
-                        'allow_role' => [
-                            Role::ROLE_ADMIN
-                        ],
-                    ],
                 ],
             ], [
                 'header_page_name' => 'log',
