@@ -4,18 +4,31 @@ namespace App\Models;
 
 class Permission extends \Spatie\Permission\Models\Permission
 {
+    const MANAGE_USERS = 'can manage users';
     const CREATE_USER = 'can create user';
     const VIEW_USER = 'can read user';
     const UPDATE_USER = 'can update user';
     const DELETE_USER = 'can delete user';
+    const UPDATE_USER_ROLES = 'can update user roles';
+    const UPDATE_USER_PERMISSIONS = 'can update user permissions';
+
+    const MANAGE_ROLES = 'can manage roles';
+
+    const MANAGE_PERMISSIONS = 'can manage permissions';
 
     public static function getPermissionList(): array
     {
         return [
+            self::MANAGE_USERS,
             self::CREATE_USER,
             self::VIEW_USER,
             self::UPDATE_USER,
             self::DELETE_USER,
+            self::UPDATE_USER_ROLES,
+            self::UPDATE_USER_PERMISSIONS,
+
+            self::MANAGE_ROLES,
+            self::MANAGE_PERMISSIONS,
         ];
     }
 

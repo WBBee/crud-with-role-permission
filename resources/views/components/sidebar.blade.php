@@ -19,47 +19,47 @@ $navigation_links = array_to_object($links);
         </div>
         @foreach ($navigation_links as $link)
         <ul class="sidebar-menu">
-            @hasanyrole($link->allow_role)
-            <li class="menu-header">{{ $link->header_page_name }}</li>
-            @foreach ($link->data_pages as $data_page)
-                @if (!$data_page->is_multi_page)
-                    @hasanyrole($data_page->allow_role)
-                    <li class="{{ Request::routeIs($data_page->page_route) ? 'active' : '' }}">
 
-                        <a class="nav-link" href="{{ route($data_page->page_route) }}">
-                            <i class="{{ $data_page->page_icon }}"></i>
-                            <span>{{ $data_page->page_name }}</span>
-                        </a>
-                    </li>
-                    @endhasanyrole
-                @elseif ($data_page->is_multi_page)
-                    @hasanyrole($data_page->allow_role)
-                    @php
-                        $routes = collect($data_page->data_multi_pages)->map(function ($child) {
-                            return Request::routeIs($child->page_route);
-                        })->toArray();
+            @if ($user->hasRole($link->guard->roles))
+                <li class="menu-header">{{ $link->header_page_name }}</li>
+                @foreach ($link->data_pages as $data_page)
+                    @if (!$data_page->is_multi_page)
+                        @if ($user->hasRole($data_page->guard->roles) && $user->hasAnyDirectPermission($data_page->guard->permissions))
+                            <li class="{{ Request::routeIs($data_page->page_route) ? 'active' : '' }}">
 
-                        $is_active = in_array(true, $routes);
-                    @endphp
-
-                    <li class="dropdown {{ ($is_active) ? 'active' : '' }}">
-                        <a href="#" class="nav-link has-dropdown" data-toggle="dropdown">
-                            <i class="{{ $data_page->icon }}"></i>
-                            <span>{{ $data_page->title }}</span>
-                        </a>
-                        <ul class="dropdown-menu">
-                            @foreach ($data_page->data_multi_pages as $child)
-                            <li class="{{ Request::routeIs($child->page_route) ? 'active' : '' }}">
-                                <a class="nav-link" href="{{ route($child->page_route) }}">{{ $child->page_name }}</a>
+                                <a class="nav-link" href="{{ route($data_page->page_route) }}">
+                                    <i class="{{ $data_page->page_icon }}"></i>
+                                    <span>{{ $data_page->page_name }}</span>
+                                </a>
                             </li>
-                            @endforeach
-                        </ul>
-                    </li>
-                    @endhasanyrole
-                @endif
-            @endforeach
+                        @endif
+                    @elseif ($data_page->is_multi_page)
+                        @if ($user->hasRole($data_page->guard->roles) && $user->hasAnyDirectPermission($data_page->guard->permissions))
+                            @php
+                                $routes = collect($data_page->data_multi_pages)->map(function ($child) {
+                                    return Request::routeIs($child->page_route);
+                                })->toArray();
 
-            @endhasanyrole
+                                $is_active = in_array(true, $routes);
+                            @endphp
+
+                            <li class="dropdown {{ ($is_active) ? 'active' : '' }}">
+                                <a href="#" class="nav-link has-dropdown" data-toggle="dropdown">
+                                    <i class="{{ $data_page->icon }}"></i>
+                                    <span>{{ $data_page->title }}</span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    @foreach ($data_page->data_multi_pages as $child)
+                                    <li class="{{ Request::routeIs($child->page_route) ? 'active' : '' }}">
+                                        <a class="nav-link" href="{{ route($child->page_route) }}">{{ $child->page_name }}</a>
+                                    </li>
+                                    @endforeach
+                                </ul>
+                            </li>
+                        @endif
+                    @endif
+                @endforeach
+            @endif
         </ul>
         @endforeach
     </aside>

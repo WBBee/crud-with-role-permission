@@ -26,3 +26,17 @@ if (!function_exists('empty_fallback')) {
         return ($data) ? $data : "-";
     }
 }
+
+if (!function_exists('create_button')) {
+
+    function create_button ($action, $model)
+    {
+        $action = str_replace($model, "", $action);
+
+        return [
+            'submit_text' => ($action == "update") ? "Update" : "Submit",
+            'submit_response' => ($action == "update") ? "Updated." : "Submited.",
+            'submit_response_notyf' => ($action == "update") ? "Data ".$model." updated successfully" : "Data ".$model." added successfully"
+        ];
+    }
+}

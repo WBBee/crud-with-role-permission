@@ -68,4 +68,16 @@ class User extends Authenticatable
         return $query->first();
     }
 
+    public static function search($query)
+    {
+        return empty($query) ? static::query()
+            : static::where('name', 'like', '%' . $query . '%')
+            ->orWhereHas('permissions', function ($permission) use ($query) {
+                $permission->where('name', 'like', '%' . $query . '%');
+            })->orWhereHas('roles', function ($role) use ($query) {
+                $role->where('name', 'like', '%' . $query . '%');
+            })
+            ;
+    }
+
 }

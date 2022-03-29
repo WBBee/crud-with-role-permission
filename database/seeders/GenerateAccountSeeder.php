@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Permission;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -22,7 +23,16 @@ class GenerateAccountSeeder extends Seeder
                 'name' => 'administrator',
                 'email' => 'bayu@admin.com',
                 'password' => 'bayubayu',
-                'role' => Role::ROLE_ADMIN,
+                'guard' => array_to_object([
+                    'roles' => [
+                        Role::ROLE_ADMIN
+                    ],
+                    'permissions' => [
+                        Permission::MANAGE_USERS,
+                        Permission::MANAGE_ROLES,
+                        Permission::MANAGE_PERMISSIONS,
+                    ],
+                ],)
             ]
         ];
 
@@ -34,7 +44,8 @@ class GenerateAccountSeeder extends Seeder
                     'password' => Hash::make($value['password']),
                 ]);
 
-                $new_user->assignRole($value['role']);
+                $new_user->assignRole($value['guard']->roles);
+                $new_user->syncPermissions($value['guard']->permissions);
             }
         }
     }

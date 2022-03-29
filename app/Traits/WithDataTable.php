@@ -6,6 +6,27 @@ trait WithDataTable
     public function getPaginationData(): array
     {
         switch ($this->name) {
+
+            case 'users':
+                $users = $this->model::search($this->search)
+                    ->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc')
+                    ->paginate($this->perPage);
+
+                return [
+                    "view" => 'livewire.admin.users.user-data-table',
+                    "users" => $users,
+                    "class" => 'nowrap text-center',
+                    "data" => array_to_object([
+                        'buttons' => [
+                            [
+                                'text' => 'Create User',
+                                'link' => route('user.new'),
+                            ],
+                        ]
+                    ])
+                ];
+                break;
+
             case 'roles':
                 $roles = $this->model::search($this->search)
                     ->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc')

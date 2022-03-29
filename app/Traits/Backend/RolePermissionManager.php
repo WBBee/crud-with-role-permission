@@ -11,7 +11,17 @@ trait RolePermissionManager
     public function getRolePermissionView(): array
     {
         switch ($this->action) {
-            case 'edit_role':
+            case 'edit_user':
+                $model_role = $this->user->getRoleNames();
+                $model_permission = $this->user->getPermissionNames();
+                return [
+                    'role_used' => $this->user->roles,
+                    'role_unused' => Role::getAvailableRoles($model_role),
+                    'permission_used' => $this->user->permissions,
+                    'permission_unused' => Permission::getAvailablePermission($model_permission),
+                ];
+                break;
+             case 'edit_role':
                 $user_has_role = User::whereHas('roles', function (Builder $query){
                     $query->where('name', '=', $this->role->name);
                 })->get();

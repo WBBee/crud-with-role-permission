@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Permission;
 use App\Models\Role;
 
 if (!function_exists('ViewDisplay')) {
@@ -15,8 +16,10 @@ if (!function_exists('ViewDisplay')) {
         $view = [
             [
                 'header_page_name' => 'dashboard',
-                'allow_role' => [
-                    Role::getRoleList(),
+                'guard' => [
+                    'roles' => [
+                        Role::ROLE_ADMIN
+                    ],
                 ],
                 'data_pages' => [
                     [
@@ -24,8 +27,11 @@ if (!function_exists('ViewDisplay')) {
                         'page_name' => 'dashboard',
                         'page_route' => 'dashboard',
                         'page_icon' => 'fa-brands fa-readme',
-                        'allow_role' => [
-                            Role::ROLE_ADMIN
+                        'guard' => [
+                            'roles' => [
+                                Role::ROLE_ADMIN
+                            ],
+                            'permissions' => [],
                         ],
                     ],
                 ],
@@ -33,8 +39,10 @@ if (!function_exists('ViewDisplay')) {
 
             [
                 'header_page_name' => 'Management',
-                'allow_role' => [
-                    Role::ROLE_ADMIN,
+                'guard' => [
+                    'roles' => [
+                        Role::ROLE_ADMIN
+                    ],
                 ],
                 'data_pages' => [
                     [
@@ -42,31 +50,50 @@ if (!function_exists('ViewDisplay')) {
                         'page_name' => 'Role & Permission',
                         'page_route' => 'role-permission',
                         'page_icon' => 'fa-solid fa-user-shield',
-                        'allow_role' => [
-                            Role::ROLE_ADMIN
+                        'guard' => [
+                            'roles' => [
+                                Role::ROLE_ADMIN
+                            ],
+                            'permissions' => [
+                                Permission::MANAGE_PERMISSIONS, Permission::MANAGE_ROLES
+                            ],
                         ],
                     ],
                     [
                         'is_multi_page' => true,
                         'title' => 'Account',
                         'icon' => 'fa-solid fa-users',
-                        'allow_role' => [
-                            Role::ROLE_ADMIN
+                        'guard' => [
+                            'roles' => [
+                                Role::ROLE_ADMIN
+                            ],
+                            'permissions' => [
+                                Permission::MANAGE_USERS
+                            ],
                         ],
                         'data_multi_pages' => [
                             [
-                                'page_name' => 'Create Accounts',
-                                'page_route' => 'dashboard',
-                                'page_icon' => '',
-                                'allow_role' => [
-                                    Role::ROLE_ADMIN
-                                ],
-                            ],[
                                 'page_name' => 'Data Accounts',
-                                'page_route' => 'dashboard',
-                                'page_icon' => '',
-                                'allow_role' => [
-                                    Role::ROLE_ADMIN
+                                'page_route' => 'users',
+                                'guard' => [
+                                    'roles' => [
+                                        Role::ROLE_ADMIN
+                                    ],
+                                    'permissions' => [
+                                        Permission::MANAGE_USERS
+                                    ],
+                                ],
+                            ],
+                            [
+                                'page_name' => 'Create Accounts',
+                                'page_route' => 'user.new',
+                                'guard' => [
+                                    'roles' => [
+                                        Role::ROLE_ADMIN
+                                    ],
+                                    'permissions' => [
+                                        Permission::CREATE_USER
+                                    ],
                                 ],
                             ],
                         ],
@@ -76,7 +103,12 @@ if (!function_exists('ViewDisplay')) {
             ], [
                 'header_page_name' => 'log',
                 'data_pages' => [],
-                'allow_role' => [Role::ROLE_ADMIN],
+                'guard' => [
+                    'roles' => [
+                        Role::ROLE_ADMIN
+                    ],
+                    'permissions' => [],
+                ],
             ]
         ];
 
